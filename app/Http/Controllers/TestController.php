@@ -8,6 +8,8 @@ use App\Models\tac;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
+use Illuminate\Support\Facades\DB;
+
 class TestController extends Controller
 {
     /**
@@ -32,7 +34,8 @@ class TestController extends Controller
     public function imei(Request $request)
     {
         $IMEI = $request->IMEI;
-        $test = Test::where('IMEI', $IMEI)->first();
+        //$test = Test::where('IMEI', $IMEI)->first();
+        $test = DB::table('_ProductRegistration_productregistration__202206091046')->where('IMEI', $IMEI)->first();
         return response()->json($test);
 }
     public function serial(Request $request)
