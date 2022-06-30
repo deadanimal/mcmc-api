@@ -15,12 +15,13 @@ use FastRoute\Route;
 |
  */
 
-$router->get('/', function () use ($router) {
-    $test = App\Models\Test::all();
-    return $test->toArray();
-    // return response()->json($test);
-    return $router->app->version();
-});
+// $router->get('/', function () use ($router) {
+//     ini_set('memory_limit', '-1');
+
+//     $test = App\Models\Test::all();
+//     return response()->json($test);
+// });
+$router->get('/', 'TestController@index');
 
 $router->group(['prefix' => 'api/mcmc'], function () use ($router) {
 
@@ -30,5 +31,6 @@ $router->group(['prefix' => 'api/mcmc'], function () use ($router) {
     $router->post('/GetSLP', 'TestController@slp');
     $router->post('/GetTAC', 'TestController@tac');
 
+    $router->post('/filter', 'TestController@filter');
 
 });

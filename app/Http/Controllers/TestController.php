@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Test;
 use App\Models\slp;
 use App\Models\tac;
+use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
 use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
@@ -25,10 +24,53 @@ class TestController extends Controller
 
     public function index()
     {
-
-        dd(Test::where('Id', 'd0316c94-6e24-4fd4-ae8f-f3a07351400a')->first());
-        // $test = Test::pluck('Id')->first();
+        // $test = Test::first();
         // return response()->json($test);
+
+        $request = new Request();
+        $request['IMEI'] = "359051094335346";
+
+        $test = Test::where('Id', '!=', null);
+
+        if ($request->has('Id')) {
+            $test->where('Id', $request->Id);
+        }
+
+        if ($request->has('SLPID')) {
+            $test->where('SLPID', $request->SLPID);
+        }
+
+        if ($request->has('TAC')) {
+            $test->where('TAC', $request->TAC);
+        }
+
+        if ($request->has('CA_owner')) {
+            $test->where('CA_owner', $request->CA_owner);
+        }
+
+        if ($request->has('ProductRegistrationNo')) {
+            $test->where('ProductRegistrationNo', $request->ProductRegistrationNo);
+        }
+
+        if ($request->has('RegType')) {
+            $test->where('RegType', $request->RegType);
+        }
+
+        if ($request->has('IMEI')) {
+            $test->where('IMEI', $request->IMEI);
+        }
+
+        if ($request->has('SerialNo')) {
+            $test->where('SerialNo', $request->SerialNo);
+        }
+        if ($request->has('FileNo')) {
+            $test->where('FileNo', $request->FileNo);
+        }
+        if ($request->has('Year')) {
+            $test->where('Year', $request->Year);
+        }
+        return response()->json($test->get());
+
     }
 
     public function imei(Request $request)
@@ -36,8 +78,9 @@ class TestController extends Controller
         $IMEI = $request->IMEI;
         //$test = Test::where('IMEI', $IMEI)->first();
         $test = DB::table('_ProductRegistration_productregistration__202206091046')->where('IMEI', $IMEI)->first();
+        // $test = DB::table('pr')->where('IMEI', $IMEI)->first();
         return response()->json($test);
-}
+    }
     public function serial(Request $request)
     {
         $SerialNo = $request->SerialNo;
@@ -57,6 +100,51 @@ class TestController extends Controller
         $tac = $request->tac;
         $test = tac::where('TAC', $tac)->first();
         return response()->json($test);
+    }
+
+    public function filter(Request $request)
+    {
+        $test = Test::where('Id', '!=', null);
+
+        if ($request->has('Id')) {
+            $test->where('Id', $request->Id);
+        }
+
+        if ($request->has('SLPID')) {
+            $test->where('SLPID', $request->SLPID);
+        }
+
+        if ($request->has('TAC')) {
+            $test->where('TAC', $request->TAC);
+        }
+
+        if ($request->has('CA_owner')) {
+            $test->where('CA_owner', $request->CA_owner);
+        }
+
+        if ($request->has('ProductRegistrationNo')) {
+            $test->where('ProductRegistrationNo', $request->ProductRegistrationNo);
+        }
+
+        if ($request->has('RegType')) {
+            $test->where('RegType', $request->RegType);
+        }
+
+        if ($request->has('IMEI')) {
+            $test->where('IMEI', $request->IMEI);
+        }
+
+        if ($request->has('SerialNo')) {
+            $test->where('SerialNo', $request->SerialNo);
+        }
+        if ($request->has('FileNo')) {
+            $test->where('FileNo', $request->FileNo);
+        }
+        if ($request->has('Year')) {
+            $test->where('Year', $request->Year);
+        }
+        return response()->json($test->get());
+
     }
 
 }
